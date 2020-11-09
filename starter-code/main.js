@@ -57,6 +57,192 @@ mongoClient.connect(url, (error, db) => {
                 }
               })
             break;
+          case "4":
+              db.collection('companies').find({ "founded_year": { $eq: 2004 } }, { name: 1, _id: 0 }).toArray((error, result) => {
+                //List by name all companies founded in february of 2004.
+                  if (error) {
+                      console.log(error);
+                      rl.question(`\nType enter to continue: `, (answer) => { mainMenu() });
+                  } else {
+                      console.log(result);
+                      rl.question(`\nType enter to continue: `, (answer) => { mainMenu() });
+                  }
+              })
+            break;
+          case "5":
+              db.collection('companies').find( { $and: [{ 'founded_year': { $eq: 2004 } }, { 'founded_month': { $in: [4, 5, 6] } }] }, { name: 1, _id: 0 }).toArray((error, result) => {
+                //List by name all companies founded in the summer of 2004 (april to june) sorted by date.
+                  if (error) {
+                      console.log(error);
+                      rl.question(`\nType enter to continue: `, (answer) => { mainMenu() });
+                  } else {
+                      console.log(result);
+                      rl.question(`\nType enter to continue: `, (answer) => { mainMenu() });
+                  }
+              })
+            break;
+          case "6":
+            db.collection('companies').find({"offices.city": "Barcelona"}, { name: 1, _id: 0 }).toArray((error, result) => {
+                //What companies have offices in "Barcelona".
+                  if (error) {
+                      console.log(error);
+                      rl.question(`\nType enter to continue: `, (answer) => { mainMenu() });
+                  } else {
+                      console.log(result);
+                      rl.question(`\nType enter to continue: `, (answer) => { mainMenu() });
+                  }
+              })
+            break;
+          case "7":
+            db.collection('companies').find({}, { name: 1, _id: 0, number_of_employees: 1 }).sort({number_of_employees: -1}).limit(10).toArray((error, result) => {
+                //List the 10 companies with more employees sorted ascending (show name and employees).
+                  if (error) {
+                      console.log(error);
+                      rl.question(`\nType enter to continue: `, (answer) => { mainMenu() });
+                  } else {
+                      console.log(result);
+                      rl.question(`\nType enter to continue: `, (answer) => { mainMenu() });
+                  }
+              })
+            break;
+          case "8":
+            db.collection('companies').find({"name": "Facebook"}, {name: 1, _id: 0}).toArray((error, result) => {
+              //Find the company with the name "Facebook"
+                  if (error) {
+                      console.log(error);
+                      rl.question(`\nType enter to continue: `, (answer) => { mainMenu() });
+                  } else {
+                      console.log(result);
+                      rl.question(`\nType enter to continue: `, (answer) => { mainMenu() });
+                  }
+              })
+            break;
+          case "9":
+              db.collection('companies').find({"name": "Facebook"}, {name: 1, _id: 0, number_of_employees: 1}).toArray((error, result) => {
+                //How many employees has Facebook?
+                    if (error) {
+                        console.log(error);
+                        rl.question(`\nType enter to continue: `, (answer) => { mainMenu() });
+                    } else {
+                        console.log(result);
+                        rl.question(`\nType enter to continue: `, (answer) => { mainMenu() });
+                    }
+                })
+              break;
+          case "10":
+              db.collection('companies').find({"name": "Facebook"}, {name: 1, _id: 0, products: 1}).toArray((error, result) => {
+                 //List the name of all the products of Facebook
+                     if (error) {
+                          console.log(error);
+                          rl.question(`\nType enter to continue: `, (answer) => { mainMenu() });
+                     } else {
+                        result[0].products.forEach((product) => { 
+                          console.log(product.name)
+                          ;});
+                          rl.question(`\nType enter to continue: `, (answer) => { mainMenu() });
+                     }
+                  })
+              break;
+          case "11":
+              db.collection('companies').find({"name": "Facebook"}, {name: 1, _id: 0, relationships: 1}).toArray((error, result) => {
+                   //List the people that are working at Facebook right now (check relationships field)
+                       if (error) {
+                            console.log(error);
+                            rl.question(`\nType enter to continue: `, (answer) => { mainMenu() });
+                       } else {
+                          result[0].relationships.forEach((elm) => {if(!(elm.is_past)) { 
+                            console.log(elm.person)}})
+                            rl.question(`\nType enter to continue: `, (answer) => { mainMenu() });
+                       }
+                    })
+                break;
+          case "12":
+              db.collection('companies').find({"name": "Facebook"}, {name: 1, _id: 0, relationships: 1}).toArray((error, result) => {
+                //List the people that are working at Facebook right now (check relationships field)
+                  if (error) {
+                       console.log(error);
+                       rl.question(`\nType enter to continue: `, (answer) => { mainMenu() });
+                  } else {
+                     result[0].relationships.forEach((elm) => {if (elm.is_past) { 
+                       console.log(elm.person)}})
+                       rl.question(`\nType enter to continue: `, (answer) => { mainMenu() });
+                  }
+               })
+               break;
+          case "13":
+                db.collection('companies').find({$and:[{"relationships.person.first_name":"David","relationships.person.last_name" :"Ebersman"}]},{ name: 1, _id: 0}).toArray((error, result) => {
+                //List all the companies where "david-ebersman" has worked.  
+                  if (error) {
+                      console.log(error);
+                      rl.question(`\nType enter to continue: `, (answer) => { mainMenu() });
+                    } else {
+                      console.log(result);
+                      rl.question(`\nType enter to continue: `, (answer) => { mainMenu() });
+                    }
+                  })
+              break;
+          case "14":
+            db.collection('companies').find({"name": "Facebook"}, {name: 1, _id: 0, competitions: 1}).toArray((error, result) => {
+              //List by name the competitors of Facebook
+                  if (error) {
+                       console.log(error);
+                       rl.question(`\nType enter to continue: `, (answer) => { mainMenu() });
+                  } else {
+                     result[0].competitions.forEach((competitor) => { 
+                       console.log(competitor.name)
+                       ;});
+                       rl.question(`\nType enter to continue: `, (answer) => { mainMenu() });
+                  }
+               })
+           break;
+          case "15":
+            db.collection('companies').find({"tag_list": {$regex:"social-networking"}}, {name: 1, _id: 0,}).toArray((error, result) => {
+              //Names of the companies that has "social-networking" in tag-list (be aware that the value of field is a string check regex operators)
+                  if (error) {
+                       console.log(error);
+                       rl.question(`\nType enter to continue: `, (answer) => { mainMenu() });
+                  } else {
+                    console.log(result);
+                       rl.question(`\nType enter to continue: `, (answer) => { mainMenu() });
+                  }
+               })
+           break;
+          case "16":
+            db.collection('companies').find({$and:[{"tag_list": {$regex:"social-networking"}},{"founded_year": {$gte: 2002 }},{"founded_year": {$lte: 2016 }}]},{ name: 1, _id: 0}).count((error, result) => {
+              //How many companies that has "social-network" in tag-list and founded between 2002 and 2016 inclusive
+                  if (error) {
+                       console.log(error);
+                       rl.question(`\nType enter to continue: `, (answer) => { mainMenu() });
+                  } else {
+                    console.log(result);
+                       rl.question(`\nType enter to continue: `, (answer) => { mainMenu() });
+                  }
+               })
+           break;
+          case "17":
+            db.collection('companies').find({"offices.city": "London"}, { name: 1, _id: 0,}).toArray((error, result) => {
+                //Names and locations of companies that have offices in London.
+                  if (error) {
+                      console.log(error);
+                      rl.question(`\nType enter to continue: `, (answer) => { mainMenu() });
+                  } else {
+                      console.log(result);
+                      rl.question(`\nType enter to continue: `, (answer) => { mainMenu() });
+                  }
+              })
+            break;
+          case "18":
+            db.collection('companies').find({$and:[{"tag_list": {$regex:"social-networking"}},{"founded_year": {$gte: 2002 },},{"founded_year": {$lte: 2016 }}, {"offices.city": "New York"}]},{ name: 1, _id: 0}).count((error, result) => {
+              //How many companies that has "social-network" in tag-list and founded between 2002 and 2016 inclusive and has offices in New York
+                  if (error) {
+                       console.log(error);
+                       rl.question(`\nType enter to continue: `, (answer) => { mainMenu() });
+                  } else {
+                    console.log(result);
+                       rl.question(`\nType enter to continue: `, (answer) => { mainMenu() });
+                  }
+               })
+           break;
         }
       });
       }
