@@ -57,6 +57,90 @@ mongoClient.connect(url, (error, db) => {
                 }
               })
             break;
+          case "4":
+            //Listar todas las compañías fundadas en febrero del 2004 por nombre
+            db.collection('companies').find({ $and: [{ "founded_year": 2004 }, { "founded_month": 2 }] }, { name: 1, _id: 0 }).toArray((error, result) => {
+              if (error) {
+                console.log(error);
+                rl.question(`\nType enter to continue: `, (answer) => { mainMenu() });
+              } else {
+                console.log(result);
+                rl.question(`\nType enter to continue: `, (answer) => { mainMenu() });
+              }
+            })
+            break;
+          case "5":
+            //Listar todas las compañías fundadas entre abril y junio del 2004 por nombre ordenadas por fecha
+            db.collection('companies').find({ "offices.city": "Barcelona" }, { name: 1, _id: 0 }).sort({ "founded_month": 1, "founded_day": 1 }).toArray((error, result) => {
+              if (error) {
+                console.log(error);
+                rl.question(`\nType enter to continue: `, (answer) => { mainMenu() });
+              } else {
+                console.log(result);
+                rl.question(`\nType enter to continue: `, (answer) => { mainMenu() });
+              }
+            })
+            break;
+          case "6":
+            //Listar todas las compañías con oficinas en Barcelona
+            db.collection('companies').find({ "offices": { $elemMatch: { "city": "Barcelona" } } }, { name: 1, _id: 0 }).sort({ "founded_month": 1, "founded_day": 1 }).toArray((error, result) => {
+              if (error) {
+                console.log(error);
+                rl.question(`\nType enter to continue: `, (answer) => { mainMenu() });
+              } else {
+                console.log(result);
+                rl.question(`\nType enter to continue: `, (answer) => { mainMenu() });
+              }
+            })
+            break;
+          case "7":
+            //10 compañías con mas empleados
+            db.collection('companies').find({}, { name: 1, number_of_employees: 1, _id: 0 }).sort({ "number_of_employees": -1 }).limit(10).toArray((error, result) => {
+              if (error) {
+                console.log(error);
+                rl.question(`\nType enter to continue: `, (answer) => { mainMenu() });
+              } else {
+                console.log(result);
+                rl.question(`\nType enter to continue: `, (answer) => { mainMenu() });
+              }
+            })
+            break;
+          case "8":
+            //Compañía con el nombre "Facebook"
+            db.collection('companies').find({"name": "Facebook"}).toArray((error, result) => {
+              if (error) {
+                console.log(error);
+                rl.question(`\nType enter to continue: `, (answer) => { mainMenu() });
+              } else {
+                console.log(result);
+                rl.question(`\nType enter to continue: `, (answer) => { mainMenu() });
+              }
+            })
+            break;
+          case "9":
+            //Numero de empleados de "Facebook"
+            db.collection('companies').find({"name": "Facebook"}, {name: 1, number_of_employees: 1, _id: 0}).toArray((error, result) => {
+              if (error) {
+                console.log(error);
+                rl.question(`\nType enter to continue: `, (answer) => { mainMenu() });
+              } else {
+                console.log(result);
+                rl.question(`\nType enter to continue: `, (answer) => { mainMenu() });
+              }
+            })
+            break;
+          case "10":
+            //Nombre de productos de "Facebook"
+            db.collection('companies').find({ "name": "Facebook" }, {"products.name": 1, _id: 0 }).toArray((error, result) => {
+              if (error) {
+                console.log(error);
+                rl.question(`\nType enter to continue: `, (answer) => { mainMenu() });
+              } else {
+                console.log(result);
+                rl.question(`\nType enter to continue: `, (answer) => { mainMenu() });
+              }
+            })
+            break;
         }
       });
       }
