@@ -1,0 +1,23 @@
+{
+  "name": "lab-mongo-crunchbase-1",
+  "version": "1.0.0",
+  "description": "Lab-Mongo-Crunchbase-1",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/jorboare/lab-mongo-crunchbase-1.git"
+  },
+  "author": "Jordi Boronat",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/jorboare/lab-mongo-crunchbase-1/issues"
+  },
+  "homepage": "https://github.com/jorboare/lab-mongo-crunchbase-1#readme",
+  "dependencies": {
+    "clear": "^0.1.0",
+    "mongodb": "^2.2.36"
+  }
+}
