@@ -60,7 +60,7 @@ mongoClient.connect(url, (error, db) => {
             })
             break;
           case '4':
-            db.collection('companies').find({ $and: [{ "funding_rounds.funded_year": 2004 }, { "funding_rounds.funded_month": 2 }] }, { name: 1, _id: 0 }).toArray((error, result) => {
+            db.collection('companies').find({ $and: [{ "founded_year": 2004 }, { "founded_month": 2 }] }, { name: 1, _id: 0 }).toArray((error, result) => {
               if (error) {
                 console.log(error);
                 rl.question(`\nType enter to continue: `, (answer) => { mainMenu() });
@@ -71,7 +71,7 @@ mongoClient.connect(url, (error, db) => {
             })
             break;
           case '5':
-            db.collection('companies').find({ $and: [{ funded_year: 2004 }, { funded_month: { $gte: 4 } }, { funded_month: { $lte: 6 } }] }, { name: 1, _id: 0 }, {}).sort({ funding_month: 1 }).toArray((error, result) => {
+            db.collection('companies').find({ $and: [{ founded_year: 2004 }, { founded_month: { $gte: 4 } }, { founded_month: { $lte: 6 } }] }, { name: 1, _id: 0 }).sort({ founded_month: 1, founded_day: 1 }).toArray((error, result) => {
               if (error) {
                 console.log(error)
                 rl.question(`\nType enter to continue: `, (answer) => { mainMenu() })
@@ -82,7 +82,7 @@ mongoClient.connect(url, (error, db) => {
             })
             break;
           case '6':
-            db.collection('companies').find({ offices: { $elemMatch: { city: "Barcelona" } } }, { name: 1, _id: 0 }).count((error, result) => {
+            db.collection('companies').find({ offices: { $elemMatch: { city: "Barcelona" } } }, { name: 1, _id: 0 }).toArray((error, result) => {
               if (error) {
                 console.log(error);
                 rl.question(`\nType enter to continue: `, (answer) => { mainMenu() });
