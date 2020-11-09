@@ -81,21 +81,21 @@ mongoClient.connect(url, (error, db) => {
                 }
               })
               break;
-          // case "6":
-          //   //What companies have offices in "Barcelona". (no resuelta)
-          //     db.collection('companies').find({ $and: [{ name: "" }, { "offices.city":  { $all: ["Barcelona"] } }] }, {name: 1, _id: 0}).count((error, result) => {
-          //       if (error) {
-          //         console.log(error);
-          //         rl.question(`\nType enter to continue: `, (answer) => { mainMenu() });
-          //       } else {
-          //         console.log(result);
-          //         rl.question(`\nType enter to continue: `, (answer) => { mainMenu() });
-          //       }
-          //     })
-          //     break;
+          case "6":
+            //What companies have offices in "Barcelona". (no resuelta)
+              db.collection('companies').find({ $and: [{ name: "" }, { "offices.city":  { $all: ["Barcelona"] } }] }, {name: 1, _id: 0}).count((error, result) => {
+                if (error) {
+                  console.log(error);
+                  rl.question(`\nType enter to continue: `, (answer) => { mainMenu() });
+                } else {
+                  console.log(result);
+                  rl.question(`\nType enter to continue: `, (answer) => { mainMenu() });
+                }
+              })
+              break;
           // case "7":
           //   //List the 10 companies with more employees sorted ascending (show name and employees). (no resuelta)
-          //     db.collection('companies').find({"funding_rounds.funded_year": 2004}, {name: 1, _id: 0}).count((error, result) => {
+          //     db.collection('companies').find({}, {name: 1, _id: 0}).count((error, result) => {
           //       if (error) {
           //         console.log(error);
           //         rl.question(`\nType enter to continue: `, (answer) => { mainMenu() });
@@ -167,7 +167,7 @@ mongoClient.connect(url, (error, db) => {
           break;
           // case "13":
           //   //List all the companies where "david-ebersman" has worked. (no resuelta)
-          //     db.collection('companies').find({"funding_rounds.funded_year": 2004}, {name: 1, _id: 0}).count((error, result) => {
+          //     db.collection('companies').find({}, {name: 1, _id: 0}).count((error, result) => {
           //       if (error) {
           //         console.log(error);
           //         rl.question(`\nType enter to continue: `, (answer) => { mainMenu() });
@@ -227,7 +227,7 @@ mongoClient.connect(url, (error, db) => {
                 break;
             case "18":
               //How many companies that has "social-network" in tag-list and founded between 2002 and 2016 inclusive and has offices in New York)
-                db.collection('companies').find({ $and: [{ tag_list: "social-network" }, { year: { $gt: 2001 } }, { year: { $lt: 2017 } }] } /* { "offices.city":  { $all: ["New York"] } }] }*/, {name: 1, _id: 0}).count((error, result) => {
+                db.collection('companies').find({ $and: [{ tag_list: "social-network" }, { year: { $gt: 2001 } }, { year: { $lt: 2017 } }] } /* ,{ "offices.city":  { $all: ["New York"] } }] }*/, {name: 1, _id: 0}).count((error, result) => {
                   if (error) {
                     console.log(error);
                     rl.question(`\nType enter to continue: `, (answer) => { mainMenu() });
