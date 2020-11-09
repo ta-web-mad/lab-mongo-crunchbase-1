@@ -57,6 +57,151 @@ mongoClient.connect(url, (error, db) => {
                 }
               })
             break;
+             case "4":
+            //Listar por nombre todas las compañias fundadas en febrero de 2004
+            db.collection('companies').find({$and: [{ founded_year: 2004 }, { founded_month: 2 }] }, {name: 1, _id: 0}).toArray((error, result) => {
+                if (error) {
+                  console.log(error);
+                  rl.question(`\nType enter to continue: `, (answer) => { mainMenu() });
+                } else {
+                  console.log(result);
+                  rl.question(`\nType enter to continue: `, (answer) => { mainMenu() });
+                }
+              })
+            break;
+          case "5":
+            //Listar por nombre todas las empresas fundadas en el verano de 2004 (abril a junio) ordenas por fecha
+            db.collection('companies').find({ $and: [{ founded_year: 2004 }, { $and: [{ founded_month: { $gte: 4 } }, { founded_month: { $lte: 6 } }]}] }, {name: 1, _id: 0}).sort({founded_month:1}).toArray((error, result) => {
+                if (error) {
+                  console.log(error);
+                  rl.question(`\nType enter to continue: `, (answer) => { mainMenu() });
+                } else {
+                  console.log(result);
+                  rl.question(`\nType enter to continue: `, (answer) => { mainMenu() });
+                }
+              })
+            break;
+           case "6":
+            //compañias con oficinas en barcelona
+            db.collection('companies').find({"offices.city": "Barcelona"}, {name: 1, _id: 0}).toArray((error, result) => {
+                if (error) {
+                  console.log(error);
+                  rl.question(`\nType enter to continue: `, (answer) => { mainMenu() });
+                } else {
+                  console.log(result);
+                  rl.question(`\nType enter to continue: `, (answer) => { mainMenu() });
+                }
+              })
+            break;
+             case "7":
+            // Enumere las 10 empresas con más empleados ordenados de forma ascendente (mostrar nombre y empleados).
+            db.collection('companies').find({}, {name: 1, _id: 0, number_of_employees: 1}).sort({number_of_employees: 1}).limit(10).toArray((error, result) => {
+                if (error) {
+                  console.log(error);
+                  rl.question(`\nType enter to continue: `, (answer) => { mainMenu() });
+                } else {
+                  console.log(result);
+                  rl.question(`\nType enter to continue: `, (answer) => { mainMenu() });
+                }
+              })
+            break;
+                case "8":
+            // Busque la empresa con el nombre "Facebook".
+            db.collection('companies').find({name: "Facebook"}).toArray((error, result) => {
+                if (error) {
+                  console.log(error);
+                  rl.question(`\nType enter to continue: `, (answer) => { mainMenu() });
+                } else {
+                  console.log(result);
+                  rl.question(`\nType enter to continue: `, (answer) => { mainMenu() });
+                }
+              })
+            break;
+                 case "9":
+            //  ¿Cuántos empleados tiene facebook?.
+            db.collection('companies').find({name: "Facebook"}, { number_of_employees: 1, _id: 0}).toArray((error, result) => {
+                if (error) {
+                  console.log(error);
+                  rl.question(`\nType enter to continue: `, (answer) => { mainMenu() });
+                } else {
+                  console.log(result);
+                  rl.question(`\nType enter to continue: `, (answer) => { mainMenu() });
+                }
+              })
+            break;
+                  case "10":
+            // Lista el nombre de todos los productos de Facebook.
+            db.collection('companies').find({name: "Facebook"}, { "products.name": 1, _id: 0}).toArray((error, result) => {
+                if (error) {
+                  console.log(error);
+                  rl.question(`\nType enter to continue: `, (answer) => { mainMenu() });
+                } else {
+                  console.log(result);
+                  rl.question(`\nType enter to continue: `, (answer) => { mainMenu() });
+                }
+              })
+            break;
+                  case "11":
+            // Enumere las personas que están trabajando en Facebook en este momento.
+            db.collection('companies').find({ $and: [{ name: "Facebook" }, {"relationships.is_past":false}] }, { "relationships.is_past": 1, _id: 0}).toArray((error, result) => {
+                if (error) {
+                  console.log(error);
+                  rl.question(`\nType enter to continue: `, (answer) => { mainMenu() });
+                } else {
+                  console.log(result);
+                  rl.question(`\nType enter to continue: `, (answer) => { mainMenu() });
+                }
+              })
+            break;
+                case "12":
+            // Cuántas personas ya no trabajan en Facebook.
+            db.collection('companies').find({ $and: [{ name: "Facebook" }, {"relationships.is_past":true}] }, { "relationships.is_past": 1, _id: 0}).count((error, result) => {
+                if (error) {
+                  console.log(error);
+                  rl.question(`\nType enter to continue: `, (answer) => { mainMenu() });
+                } else {
+                  console.log(result);
+                  rl.question(`\nType enter to continue: `, (answer) => { mainMenu() });
+                }
+              })
+            break;
+           case "13":
+            // Enumere todas las empresas en las que ha trabajado "david-ebersman".
+            db.collection('companies').find({ "relationships.person.permalink":"david-ebersman"}, { name: 1, _id: 0}).toArray((error, result) => {
+                if (error) {
+                  console.log(error);
+                  rl.question(`\nType enter to continue: `, (answer) => { mainMenu() });
+                } else {
+                  console.log(result);
+                  rl.question(`\nType enter to continue: `, (answer) => { mainMenu() });
+                }
+              })
+            break;
+           case "14":
+            // Enumerar por nombre los competidores de Facebook.
+            db.collection('companies').find({name: "Facebook"}, {'competitions.competitor.permalink': 1, _id: 0}).toArray((error, result) => {
+                if (error) {
+                  console.log(error);
+                  rl.question(`\nType enter to continue: `, (answer) => { mainMenu() });
+                } else {
+                  console.log(result);
+                  rl.question(`\nType enter to continue: `, (answer) => { mainMenu() });
+                }
+              })
+            break;
+           case "17":
+            // Nombres y ubicaciones de empresas que tienen oficinas en Londres.
+            db.collection('companies').find({"offices.city": "London"}, {name: 1, _id: 0, 'offices.address1':1,'offices.address2':1}).toArray((error, result) => {
+                if (error) {
+                  console.log(error);
+                  rl.question(`\nType enter to continue: `, (answer) => { mainMenu() });
+                } else {
+                  console.log(result);
+                  rl.question(`\nType enter to continue: `, (answer) => { mainMenu() });
+                }
+              })
+            break;
+          
         }
       });
       }
