@@ -57,6 +57,95 @@ mongoClient.connect(url, (error, db) => {
                 }
               })
             break;
+           case "4":
+              db.collection('companies').find({$and:[{"funding_rounds.funded_year": 2004},{"founded_month": 2}]}, {name: 1, _id: 0}).toArray((error, result) => {
+                if (error) {
+                  console.log(error);
+                  rl.question(`\nType enter to continue: `, (answer) => { mainMenu() });
+                } else {
+                  console.log(result);
+                  rl.question(`\nType enter to continue: `, (answer) => { mainMenu() });
+                }
+              })
+            break;
+          //{$and:[{"funding_rounds.funded_year": 2004},{"founded_month": 2}]}
+           case "5":
+              db.collection('companies').find({$and:[{"funding_rounds.funded_year": 2004},{"founded_month": { $gte: 4, $lte: 6 }}]}, {name:1,founded_year: 1, founded_month: 1, _id: 0}).sort({founded_month: 1}).toArray((error, result) => {
+                if (error) {
+                  console.log(error);
+                  rl.question(`\nType enter to continue: `, (answer) => { mainMenu() });
+                } else {
+                  console.log(result);
+                  rl.question(`\nType enter to continue: `, (answer) => { mainMenu() });
+                }
+              })
+            break;
+          //{$and:[{"funding_rounds.funded_year": 2004},{"founded_month": { $gte: 4, $lte: 6 }}]}
+          case "6":
+            db.collection('companies').find({ "offices.city": "Barcelona" }, { name: 1, _id: 0, 'offices.city': 1 }).toArray((error, result) => {
+                if (error) {
+                  console.log(error);
+                  rl.question(`\nType enter to continue: `, (answer) => { mainMenu() });
+                } else {
+                  console.log(result);
+                  rl.question(`\nType enter to continue: `, (answer) => { mainMenu() });
+                }
+              })
+            break;
+          //{"offices.city":"Barcelona"}
+          case "7":
+            db.collection('companies').find({}, { name: 1, number_of_employees: 1, _id: 0 }).sort({ number_of_employees: -1 }).toArray((error, result) => {
+              if (error) {
+                console.log(err);
+                rl.question(`\nType enter to continue: `, (answer) => { mainMenu() });
+              } else {
+                console.log(result);
+                rl.question(`\nType enter to continue: `, (answer) => { mainMenu() });
+              }
+            })
+            break;
+            // en sort: { number_of_employees: -1 }
+          case "8":
+            db.collection('companies').find({name: "Facebook"}, { name: 1, number_of_employees: 1, _id: 0 }).sort({ number_of_employees: -1 }).limit(10).toArray((error, result) => {
+              if (error) {
+                console.log(error);
+                rl.question(`\nType enter to continue: `, (answer) => { mainMenu() });
+              } else {
+                console.log(result);
+                rl.question(`\nType enter to continue: `, (answer) => { mainMenu() });
+              }
+            })
+            break;
+        
+          //8
+          //{name: "Facebook"}
+          // {"products.name":1}
+          //9
+          //{name:"Facebook"}
+          // {number_of_employees:1}
+          //10
+          //{name:"Facebook"}
+          //{'products.name':1}
+          // 11. 
+          //{name:"Facebook"}
+          // {"relationships.person":1 }
+          // 12. 
+          //{$and:[{name:"Facebook"},{"relationships.is_past": false}]}
+          // {"relationships.is_past":1}
+          //118
+          //13.
+          //{"relationships.person.permalink": "david-ebersman"}
+          // 14. 
+          //{name:"Facebook"}
+          //{competitions:1}
+          //15.
+          //{tag_list: "social-network"}
+          //16.
+          //{"offices.city":"London"}
+          //{name:1} la localización es Londrés, no?
+          //
+          
+
         }
       });
       }
