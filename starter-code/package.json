@@ -1,0 +1,15 @@
+{
+  "name": "starter-code",
+  "version": "1.0.0",
+  "description": "Lab Mongo Crunchbase 1",
+  "main": "main.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Carlos Martin-Salas Larena",
+  "license": "ISC",
+  "dependencies": {
+    "clear": "^0.1.0",
+    "mongodb": "^2.2.36"
+  }
+}
