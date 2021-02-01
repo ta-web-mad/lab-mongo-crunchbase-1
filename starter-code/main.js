@@ -133,9 +133,9 @@ mongoClient.connect(`mongodb://localhost:27017/crunchbase`, (error, db) => {
 
               case "10":
               // 10.- List the name of all the products of Facebook
-              db.collection('companies').find({name: "Facebook"}, {  "products.name":1}).toArray((error, result) => {
+              db.collection('companies').findOne({name: "Facebook"}, {  "products.name": 1, _id: 0}, (error, result) => {
                 if (error) {
-                  console.log(error);
+                  console.log(error); 
                   rl.question(`\nType enter to continue: `, (answer) => { mainMenu() });
                 } else {
                   console.log(result);
@@ -146,12 +146,22 @@ mongoClient.connect(`mongodb://localhost:27017/crunchbase`, (error, db) => {
 
               case "11":
               // 11.- List the people that are working at Facebook right now (check relationships field)
-              db.collection('companies').find({name: "Facebook"}, { name: 1, _id: 0, "products.name":1}).toArray((error, result) => {
+              db.collection('companies').findOne({name:"Facebook"}, { _id: 0, relationships:1}, (error, result) => {
                 if (error) {
                   console.log(error);
                   rl.question(`\nType enter to continue: `, (answer) => { mainMenu() });
                 } else {
-                  console.log(result);
+                  const currentWorkers = result.relationships.reduce((acc, relationship) => {
+                    if(!relationship.is_past) {
+                      const firstName = relationship.person.first_name
+                      const lastName = relationship.person.last_name
+                      acc.push({name: `${firstName} ${lastName}`})
+                    }
+
+                    return acc
+                  }, [])
+
+                  console.log(currentWorkers);
                   rl.question(`\nType enter to continue: `, (answer) => { mainMenu() });
                 }
               })
@@ -172,12 +182,13 @@ mongoClient.connect(`mongodb://localhost:27017/crunchbase`, (error, db) => {
 
                 case "13":
                   // 13.- List by name the competitors of Facebook
-                  db.collection('companies').find({"relationships.person.permalink": "david-ebersman"}, { name: 1, _id: 0,}).toArray((error, result) => {
+                  db.collection('companies').findOne({name: "Facebook"}, {"competitions.competitor.name": 1, _id: 0}, (error, result) => {
                     if (error) {
                       console.log(error);
                       rl.question(`\nType enter to continue: `, (answer) => { mainMenu() });
                     } else {
-                      console.log(result);
+                      const competitorNames = result.competitions.map(competition=> ({competitorName:competition.competitor.name}))
+                      console.log(competitorNames);
                       rl.question(`\nType enter to continue: `, (answer) => { mainMenu() });
                     }
                   })
