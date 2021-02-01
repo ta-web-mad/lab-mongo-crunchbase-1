@@ -104,6 +104,32 @@ mongoClient.connect(`mongodb://localhost:27017/crunchbase`, (error, db) => {
                 }
               })
               break;
+
+              case "8":
+              // 8.- Find the company with the name "Facebook"
+              db.collection('companies').find({name: "Facebook"}, {name:1, _id: 0, homepage_url:1}).toArray((error, result) => {
+                if (error) {
+                  console.log(error);
+                  rl.question(`\nType enter to continue: `, (answer) => { mainMenu() });
+                } else {
+                  console.log(result);
+                  rl.question(`\nType enter to continue: `, (answer) => { mainMenu() });
+                }
+              })
+              break;
+
+              case "9":
+              // 9.- How many employees has Facebook?
+              db.collection('companies').find({name: "Facebook"}, { name: 1, _id: 0, number_of_employees:1}).toArray((error, result) => {
+                if (error) {
+                  console.log(error);
+                  rl.question(`\nType enter to continue: `, (answer) => { mainMenu() });
+                } else {
+                  console.log(result);
+                  rl.question(`\nType enter to continue: `, (answer) => { mainMenu() });
+                }
+              })
+              break;
         }
       });
     }
