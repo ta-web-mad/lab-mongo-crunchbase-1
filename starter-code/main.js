@@ -175,8 +175,8 @@ mongoClient.connect(`mongodb://localhost:27017/crunchbase`, (error, db) => {
               break;
 
               case "13": 
-              //List all the companies where "david-ebersman" has worked.
-              db.collection('companies').find({ relationships: {$elemMatch:{person: "david-ebersman"}}}, { name: 1, _id: 0 }).toArray((error, result) => {
+              //List by name the competitors of Facebook
+              db.collection('companies').find({ name: "Facebook"}, {"competitions.competitor.name": 1}, { name: 1, _id: 0 }).toArray((error, result) => {
                 if (error) {
                   console.log(error);
                   rl.question(`\nType enter to continue: `, (answer) => { mainMenu() });
