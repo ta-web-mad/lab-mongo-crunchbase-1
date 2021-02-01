@@ -6,7 +6,8 @@ const rl = readline.createInterface({ input: process.stdin, output: process.stdo
 
 mongoClient.connect(`mongodb://localhost:27017/crunchbase`, (error, db) => {
 
-  if (error) { console.log('Error trying to connect to the Database:', error) } else { console.log('Connection established correctly!! 😬');
+  if (error) { console.log('Error trying to connect to the Database:', error) } else {
+    console.log('Connection established correctly!! 😬');
 
     function mainMenu() {
       clear();
@@ -54,6 +55,83 @@ mongoClient.connect(`mongodb://localhost:27017/crunchbase`, (error, db) => {
             break;
 
           // Code here next cases!
+
+
+          case "4":
+          // 4.- List by name all companies founded in february of 2004.
+
+
+
+          case "5":
+          // 5.- List by name all companies founded in the summer of 2004 (april to june) sorted by date.
+
+
+
+          case "6":
+          // 6.- What companies have offices in "Barcelona".
+
+
+
+          case "7":
+          // 7.- List the 10 companies with more employees sorted ascending (show name and employees).
+
+
+
+          case "8":
+          // 8.- Find the company with the name "Facebook"
+
+
+
+
+          case "9":
+          // 9.- How many employees has Facebook?
+
+
+          case "10":
+          // 10.- List the name of all the products of Facebook
+
+
+          case "11":
+          // 11.- List the people that are working at Facebook right now (check relationships field)
+
+
+
+          case "12":
+          // 12.- List all the companies where "david-ebersman" has worked.
+
+
+          case "13":
+          // 13.- List by name the competitors of Facebook
+
+
+
+          case "14":
+          // 14.- Names of the companies that has "social-networking" in tag-list (be aware that the value of field is a string check regex operators)
+
+
+
+          case "15":
+          // 15.- How many companies that has "social-network" in tag-list and founded between 2002 and 2016 inclusive
+
+
+
+          case "16":
+          // 16.- Names and locations of companies that have offices in London
+
+
+
+          case "17":
+          // 17.- How many companies that has "social-network" in tag-list and founded between 2002 and 2016 inclusive and has offices in New York
+
+
+
+
+
+
+
+
+
+
         }
       });
     }
