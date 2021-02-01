@@ -78,6 +78,32 @@ mongoClient.connect(`mongodb://localhost:27017/crunchbase`, (error, db) => {
                 }
               })
               break;
+
+              case "6":
+              // 6.- What companies have offices in "Barcelona".
+              db.collection('companies').find({"offices.city": "Barcelona"}, { name: 1, _id: 0 }).toArray((error, result) => {
+                if (error) {
+                  console.log(error);
+                  rl.question(`\nType enter to continue: `, (answer) => { mainMenu() });
+                } else {
+                  console.log(result);
+                  rl.question(`\nType enter to continue: `, (answer) => { mainMenu() });
+                }
+              })
+              break;
+
+              case "7":
+              // 7.- List the 10 companies with more employees sorted ascending (show name and employees).
+              db.collection('companies').find({number_of_employees:{$ne: null}}, { name: 1, _id: 0, number_of_employees:1 }).sort({number_of_employees:-1}).limit(10).toArray((error, result) => {
+                if (error) {
+                  console.log(error);
+                  rl.question(`\nType enter to continue: `, (answer) => { mainMenu() });
+                } else {
+                  console.log(result);
+                  rl.question(`\nType enter to continue: `, (answer) => { mainMenu() });
+                }
+              })
+              break;
         }
       });
     }
