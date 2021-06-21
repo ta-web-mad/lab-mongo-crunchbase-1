@@ -6,7 +6,8 @@ const rl = readline.createInterface({ input: process.stdin, output: process.stdo
 
 mongoClient.connect(`mongodb://localhost:27017/crunchbase`, (error, db) => {
 
-  if (error) { console.log('Error trying to connect to the Database:', error) } else { console.log('Connection established correctly!! 😬');
+  if (error) { console.log('Error trying to connect to the Database:', error) } else {
+    console.log('Connection established correctly!! 😬');
 
     function mainMenu() {
       clear();
@@ -53,13 +54,256 @@ mongoClient.connect(`mongodb://localhost:27017/crunchbase`, (error, db) => {
             })
             break;
 
-          // Code here next cases!
-        }
-      });
-    }
+          case "4":
+            // 4.-  List by name all companies founded in february of 2004.
 
-    mainMenu()
+            db.collection('companies').find({ $and: [{ founded_year: 2004 }, { founded_month: 2 }] }, { name: 1, _id: 0 }).toArray((error, result) => {
+              if (error) {
+                console.log(error);
+                rl.question(`\nType enter to continue: `, (answer) => { mainMenu() });
+              } else {
+                console.log(result);
+                rl.question(`\nType enter to continue: `, (answer) => { mainMenu() });
+              }
+            })
+            break;
+
+          case "5":
+            // 4.-  List by name all companies founded in february of 2004.
+
+            db.collection('companies').find({ $and: [{ founded_year: 2004 }, { founded_month: { $gte: 4 } }, { founded_month: { $lte: 6 } }] }, { name: 1, _id: 0 }).sort({ founded_month: 1, founded_day: 1 }).toArray((error, result) => {
+              if (error) {
+                console.log(error);
+                rl.question(`\nType enter to continue: `, (answer) => { mainMenu() });
+              } else {
+                console.log(result);
+                rl.question(`\nType enter to continue: `, (answer) => { mainMenu() });
+              }
+            })
+            break;
+
+
+
+          case "6":
+            // 6.- What companies have offices in "Barcelona".
+
+
+            db.collection('companies').find({ "offices.city": 'Barcelona' }, { name: 1, _id: 0 }).toArray((error, result) => {
+              if (error) {
+                console.log(error);
+                rl.question(`\nType enter to continue: `, (answer) => { mainMenu() });
+              } else {
+                console.log(result);
+                rl.question(`\nType enter to continue: `, (answer) => { mainMenu() });
+              }
+            })
+            break;
+
+
+          case "7":
+            // 6.- What companies have offices in "Barcelona".
+
+
+            db.collection('companies').find( { name: 1, number_of_employees: 1 }).sort(-1).limit(10).toArray((error, result) => {
+              if (error) {
+                console.log(error);
+                rl.question(`\nType enter to continue: `, (answer) => { mainMenu() });
+              } else {
+                console.log(result);
+                rl.question(`\nType enter to continue: `, (answer) => { mainMenu() });
+              }
+            })
+            break;
+
+
+
+          case "8":
+            //8 find FB
+
+
+            db.collection('companies').find({ name: 'Facebook' }, { name: 1, _id: 0 }).toArray((error, result) => {
+              if (error) {
+                console.log(error);
+                rl.question(`\nType enter to continue: `, (answer) => { mainMenu() });
+              } else {
+                console.log(result);
+                rl.question(`\nType enter to continue: `, (answer) => { mainMenu() });
+              }
+            })
+            break;
+
+
+          case "9":
+            // 9 number emplyees facebook
+
+
+            db.collection('companies').find({ name: 'Facebook' }, { name: 1, _id: 0 }).count((error, result) => {
+              if (error) {
+                console.log(error);
+                rl.question(`\nType enter to continue: `, (answer) => { mainMenu() });
+              } else {
+                console.log(result);
+                rl.question(`\nType enter to continue: `, (answer) => { mainMenu() });
+              }
+            })
+            break;
+
+
+          case "10":
+            //10. - List the name of all the products of Facebook
+
+
+            db.collection('companies').find({ name: 'Facebook' }), {
+              name: 1, _id: 0, products_name: 1
+            }.toArray((error, result) => {
+              if (error) {
+                console.log(error);
+                rl.question(`\nType enter to continue: `, (answer) => { mainMenu() });
+              } else {
+                console.log(result);
+                rl.question(`\nType enter to continue: `, (answer) => { mainMenu() });
+              }
+            })
+            break;
+
+
+          case "11":
+            //List the people that are working at Facebook right now(check relationships field)
+
+
+            db.collection('companies').find({ name: 'Facebook' }), { name: 1, _id: 0, number_of_employees: 1 }.toArray((error, result) => {
+              if (error) {
+                console.log(error);
+                rl.question(`\nType enter to continue: `, (answer) => { mainMenu() });
+              } else {
+                console.log(result);
+                rl.question(`\nType enter to continue: `, (answer) => { mainMenu() });
+              }
+            })
+            break;
+
+            ;
+
+          case "12":
+            //List companies where X guy worked at
+
+
+            db.collection('companies').find({ $and: [{ "relationships.person.permalink": "david-ebersman" }, { "relationships.is_past": true }] }), { name: 1, _id: 0, }.toArray((error, result) => {
+              if (error) {
+                console.log(error);
+                rl.question(`\nType enter to continue: `, (answer) => { mainMenu() });
+              } else {
+                console.log(result);
+                rl.question(`\nType enter to continue: `, (answer) => { mainMenu() });
+              }
+            })
+            break;
+
+          case "13":
+
+            //Competitors of Facebook
+
+
+            db.collection('companies').find({ name: 'Facebook' }), {
+              name: 1, _id: 0, competitions_competitor_name: 1
+            }.toArray((error, result) => {
+              if (error) {
+                console.log(error);
+                rl.question(`\nType enter to continue: `, (answer) => { mainMenu() });
+              } else {
+                console.log(result);
+                rl.question(`\nType enter to continue: `, (answer) => { mainMenu() });
+              }
+            })
+            break;
+
+          case "14":
+
+            //Taglist Social Networking
+
+
+            db.collection('companies').find({ tag_list: 'social-networking' }), { name: 1, _id: 0 }
+              .toArray((error, result) => {
+                if (error) {
+                  console.log(error);
+                  rl.question(`\nType enter to continue: `, (answer) => { mainMenu() });
+                } else {
+                  console.log(result);
+                  rl.question(`\nType enter to continue: `, (answer) => { mainMenu() });
+                }
+              })
+            break;
+
+
+          case "15":
+
+            //Taglist Social Networking, founded 2002-2016
+
+
+            db.collection('companies').find({ $and: [{ tag_list: 'social-networking' }, { founded_year: { $gte: 2002 } }, { founded_year: { $lte: 2016 } }] }), { name: 1, _id: 0 }
+              .count((error, result) => {
+                if (error) {
+                  console.log(error);
+                  rl.question(`\nType enter to continue: `, (answer) => { mainMenu() });
+                } else {
+                  console.log(result);
+                  rl.question(`\nType enter to continue: `, (answer) => { mainMenu() });
+                }
+              })
+            break;
+
+
+
+          case "16":
+
+            //Taglist Social Networking, founded 2002-2016
+
+
+            db.collection('companies').find({ $and: [{ tag_list: 'social-networking' }, { founded_year: { $gte: 2002 } }, { founded_year: { $lte: 2016 } }] }), { name: 1, _id: 0 }
+              .toCount((error, result) => {
+                if (error) {
+                  console.log(error);
+                  rl.question(`\nType enter to continue: `, (answer) => { mainMenu() });
+                } else {
+                  console.log(result);
+                  rl.question(`\nType enter to continue: `, (answer) => { mainMenu() });
+                }
+              })
+            break;
+
+
+
+          case "17":
+
+            //Taglist Social Networking, founded 2002-2016
+
+
+            db.collection('companies').find({ "offices.city": 'London' }), { name: 1, _id: 0, offices: 1 }
+              .toArray((error, result) => {
+                if (error) {
+                  console.log(error);
+                  rl.question(`\nType enter to continue: `, (answer) => { mainMenu() });
+                } else {
+                  console.log(result);
+                  rl.question(`\nType enter to continue: `, (answer) => { mainMenu() });
+                }
+              })
+            break;
+
+
+
+
+        }
+      })
+    };
+
   }
+  // Code here next cases!
+
+
+
+  mainMenu()
+
 });
 
 
