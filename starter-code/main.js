@@ -6,7 +6,8 @@ const rl = readline.createInterface({ input: process.stdin, output: process.stdo
 
 mongoClient.connect(`mongodb://localhost:27017/crunchbase`, (error, db) => {
 
-  if (error) { console.log('Error trying to connect to the Database:', error) } else { console.log('Connection established correctly!! 😬');
+  if (error) { console.log('Error trying to connect to the Database:', error) } else {
+    console.log('Connection established correctly!! 😬');
 
     function mainMenu() {
       clear();
@@ -53,6 +54,127 @@ mongoClient.connect(`mongodb://localhost:27017/crunchbase`, (error, db) => {
             })
             break;
 
+          case "4":
+            //4.- List by name all companies founded in february of 2004.
+            db.collection('companies').find({ $and: [{ founded_year: 2004 }, { founded_month: 2 }] }, { name: 1, _id: 0 }).toArray((error, result) => {
+              if (error) {
+                console.log(error);
+                rl.question(`\nType enter to continue: `, (answer) => { mainMenu() });
+              } else {
+                console.log(result);
+                rl.question(`\nType enter to continue: `, (answer) => { mainMenu() });
+              }
+            })
+            break;
+
+          case "5":
+            //5.- List by name all companies founded in the summer of 2004 (april to june) sorted by date.
+            db.collection('companies').find({ $and: [{ founded_year: 2004 }, { founded_month: { $gt: 3 } }, { founded_month: { $lt: 7 } }] }, { name: 1, _id: 0 }).toArray((error, result) => {
+              if (error) {
+                console.log(error);
+                rl.question(`\nType enter to continue: `, (answer) => { mainMenu() });
+              } else {
+                console.log(result);
+                rl.question(`\nType enter to continue: `, (answer) => { mainMenu() });
+              }
+            })
+            break;
+
+          case "6":
+            // What companies have offices in "Barcelona". PENDIENTE
+            db.collection('companies').find({ "offices.city": "Barcelona" }, { name: 1, _id: 0 }).toArray((error, result) => {
+              if (error) {
+                console.log(error);
+                rl.question(`\nType enter to continue: `, (answer) => { mainMenu() });
+              } else {
+                console.log(result);
+                rl.question(`\nType enter to continue: `, (answer) => { mainMenu() });
+              }
+            })
+            break;
+
+          case "7": //{number_of_employees: {$gt : 185000}} PENDIENTE
+            // List the 10 companies with more employees sorted ascending (show name and employees).
+            db.collection('companies').find({ number_of_employees: { $gt: 185000 } }, { name: 1, _id: 0 }).toArray((error, result) => {
+              if (error) {
+                console.log(error);
+                rl.question(`\nType enter to continue: `, (answer) => { mainMenu() });
+              } else {
+                console.log(result);
+                rl.question(`\nType enter to continue: `, (answer) => { mainMenu() });
+              }
+            })
+            break;
+
+          case "8":
+            //Find the company with the name "Facebook"
+            db.collection('companies').find({ name: "Facebook" }, { name: 1, _id: 0 }).toArray((error, result) => {
+              if (error) {
+                console.log(error);
+                rl.question(`\nType enter to continue: `, (answer) => { mainMenu() });
+              } else {
+                console.log(result);
+                rl.question(`\nType enter to continue: `, (answer) => { mainMenu() });
+              }
+            })
+            break;
+          //{ $and: [{ name: "Facebook" }, { number_of_employees:{}  }] }   
+
+          case "9":
+
+            db.collection('companies').find({ name: "Facebook" }, { name: 1, _id: 0, number_of_employees: 1 }).toArray((error, result) => {
+              if (error) {
+                console.log(error);
+                rl.question(`\nType enter to continue: `, (answer) => { mainMenu() });
+              } else {
+                console.log(result);
+                rl.question(`\nType enter to continue: `, (answer) => { mainMenu() });
+              }
+            })
+            break;
+
+          case "10":
+            //List the name of all the products of Facebook
+            db.collection('companies').find({ name: "Facebook" }, { name: 1, _id: 0, "products.name": 1 }).toArray((error, result) => {
+              if (error) {
+                console.log(error);
+                rl.question(`\nType enter to continue: `, (answer) => { mainMenu() });
+              } else {
+                console.log(result);
+                rl.question(`\nType enter to continue: `, (answer) => { mainMenu() });
+              }
+            })
+            break;
+
+          case "11":
+            //  List the people that are working at Facebook right now (check relationships field)
+            db.collection('companies').find({ name: "Facebook" }, { name: 1, _id: 0, "relationships.title": 1 }).toArray((error, result) => {
+              if (error) {
+                console.log(error);
+                rl.question(`\nType enter to continue: `, (answer) => { mainMenu() });
+              } else {
+                console.log(result);
+                rl.question(`\nType enter to continue: `, (answer) => { mainMenu() });
+              }
+            })
+            break;
+
+          case "12":
+            // 12.- List all the companies where "david-ebersman" has worked.
+            db.collection('companies').find({ "relationships.person.permalink": "david-ebersman" }, { name: 1, _id: 0 }).toArray((error, result) => {
+              if (error) {
+                console.log(error);
+                rl.question(`\nType enter to continue: `, (answer) => { mainMenu() });
+              } else {
+                console.log(result);
+                rl.question(`\nType enter to continue: `, (answer) => { mainMenu() });
+              }
+            })
+            break;
+
+
+
+
           // Code here next cases!
         }
       });
@@ -62,7 +184,7 @@ mongoClient.connect(`mongodb://localhost:27017/crunchbase`, (error, db) => {
   }
 });
 
-
+// 6 { "offices.city": "Barcelona" }
 
 function printMenu() {
   console.log(`
