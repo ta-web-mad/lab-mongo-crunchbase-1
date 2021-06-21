@@ -1,0 +1,23 @@
+{
+  "name": "lab-mongo-crunchbase-1",
+  "version": "1.0.0",
+  "description": "lab mongoDB",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/amarinoglobal/lab-mongo-crunchbase-1.git"
+  },
+  "author": "Alexander Marino",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/amarinoglobal/lab-mongo-crunchbase-1/issues"
+  },
+  "homepage": "https://github.com/amarinoglobal/lab-mongo-crunchbase-1#readme",
+  "dependencies": {
+    "clear": "^0.1.0",
+    "mongodb": "^2.2.36"
+  }
+}
