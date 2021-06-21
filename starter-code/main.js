@@ -211,6 +211,7 @@ mongoClient.connect(`mongodb://localhost:27017/crunchbase`, (error, db) => {
 									});
 								} else {
 									console.log(...result);
+
 									rl.question(`\nType enter to continue: `, (answer) => {
 										mainMenu();
 									});
@@ -232,7 +233,11 @@ mongoClient.connect(`mongodb://localhost:27017/crunchbase`, (error, db) => {
 										mainMenu();
 									});
 								} else {
-									console.log(...result);
+									let [res2] = [...result];
+
+									console.log([...res2.relationships]);
+
+									// console.log(...result);
 									rl.question(`\nType enter to continue: `, (answer) => {
 										mainMenu();
 									});
