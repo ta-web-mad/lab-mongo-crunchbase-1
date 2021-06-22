@@ -187,7 +187,7 @@ mongoClient.connect(`mongodb://localhost:27017/crunchbase`, (error, db) => {
                     mainMenu();
                   });
                 } else {
-                  console.log(result);
+                  console.log(result[0].number_of_employees);
                   rl.question(`\nType enter to continue: `, answer => {
                     mainMenu();
                   });
@@ -198,7 +198,7 @@ mongoClient.connect(`mongodb://localhost:27017/crunchbase`, (error, db) => {
           // 10.- List the name of all the products of Facebook
           case '10':
             db.collection('companies')
-              .find({ name: 'Facebook' }, { products: [['name']] })
+              .find({ name: 'Facebook' }, { _id: 0, products: 1 })
               .toArray((error, result) => {
                 if (error) {
                   console.log(error);
@@ -206,7 +206,8 @@ mongoClient.connect(`mongodb://localhost:27017/crunchbase`, (error, db) => {
                     mainMenu();
                   });
                 } else {
-                  console.log(result);
+                  result[0].products.forEach(elm => console.log(elm.name));
+                  // console.log();
                   rl.question(`\nType enter to continue: `, answer => {
                     mainMenu();
                   });
@@ -215,6 +216,45 @@ mongoClient.connect(`mongodb://localhost:27017/crunchbase`, (error, db) => {
             break;
 
           // 11.- List the people that are working at Facebook right now (check relationships field)
+
+          case '11':
+            db.collection('companies')
+              .find({ name: 'Facebook' }, { _id: 0, relationships: 1 })
+              .toArray((error, result) => {
+                if (error) {
+                  console.log(error);
+                  rl.question(`\nType enter to continue: `, answer => {
+                    mainMenu();
+                  });
+                } else {
+                  result[0].relationships.forEach(elm => console.log(elm.person.first_name + ' ' + elm.person.last_name));
+                  // console.log();
+                  rl.question(`\nType enter to continue: `, answer => {
+                    mainMenu();
+                  });
+                }
+              });
+            break;
+
+          // 12.- List all the companies where "david-ebersman" has worked.
+          case '12':
+            db.collection('companies')
+              .find({}, { _id: 0, relationships: 1 })
+              .toArray((error, result) => {
+                if (error) {
+                  console.log(error);
+                  rl.question(`\nType enter to continue: `, answer => {
+                    mainMenu();
+                  });
+                } else {
+                  let filter = result[0].relationships.filter(elm => console.log(elm));
+                  // console.log(filter);
+                  rl.question(`\nType enter to continue: `, answer => {
+                    mainMenu();
+                  });
+                }
+              });
+            break;
         }
       });
     }
