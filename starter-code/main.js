@@ -55,7 +55,8 @@ mongoClient.connect(`mongodb://localhost:27017/crunchbase`, (error, db) => {
 
           case "4":
             // 4.- List by name all companies founded in february of 2004.?
-            db.collection('companies').find({founded_year : 2004}, { name: 1, _id: 0 }).toArray((error, result) => {
+            // db.collection('companies').find({founded_year : 2004}, { name: 1, _id: 0 }).toArray((error, result) => {
+            db.collection('companies').find( {$and: [ {founded_year : 2004} , {founded_month : 2} ]}  , { name: 1, _id: 0 }).toArray((error, result) => {
               if (error) {
                 console.log(error);
                 rl.question(`\nType enter to continue: `, (answer) => { mainMenu() });
@@ -69,6 +70,7 @@ mongoClient.connect(`mongodb://localhost:27017/crunchbase`, (error, db) => {
           case "5":
             // 5.- List by name all companies founded in the summer of 2004 (april to june) sorted by date.
             db.collection('companies').find({$and: [ {founded_year : 2004}, {founded_month: {$in : [4,5,6] } } ] }, { name: 1, _id: 0 })
+            // db.collection('companies').find({$and: [ {founded_year : 2004}, {founded_month: {$gte: 4 } } , {founded_month: {$lte: 6 } }] }, { name: 1, _id: 0 })
               .toArray((error, result) => {
               if (error) {
                 console.log(error);
@@ -127,12 +129,14 @@ mongoClient.connect(`mongodb://localhost:27017/crunchbase`, (error, db) => {
   
           case "9":
             // 9.- How many employees has Facebook?
-            db.collection('companies').find({ "name": "Facebook" }, { name: 1, number_of_employees:1, _id: 0 }).toArray((error, result) => {
+            // db.collection('companies').find({ "name": "Facebook" }, { name: 1, number_of_employees:1, _id: 0 }).toArray((error, result) => {
+            db.collection('companies').find({ "name": "Facebook" }, { number_of_employees:1, _id: 0 }).toArray((error, result) => {
               if (error) {
                 console.log(error);
                 rl.question(`\nType enter to continue: `, (answer) => { mainMenu() });
               } else {
-                console.log(result[0].number_of_employees);
+                // console.log(result[0].number_of_employees);
+                console.log(result);
                 rl.question(`\nType enter to continue: `, (answer) => { mainMenu() });
               }
             })
@@ -147,7 +151,10 @@ mongoClient.connect(`mongodb://localhost:27017/crunchbase`, (error, db) => {
                 rl.question(`\nType enter to continue: `, (answer) => { mainMenu() });
               } else {
                 // console.log( result )
+                // console.log(result[0].products )
                 result[0].products.forEach(elem => console.log(elem.name));
+                // let products = result[0].products.map(elem => elem.name);
+                console.log(products)
                 rl.question(`\nType enter to continue: `, (answer) => { mainMenu() });
               }
             })
@@ -170,19 +177,44 @@ mongoClient.connect(`mongodb://localhost:27017/crunchbase`, (error, db) => {
 
             case "12":
               // 12.- List all the companies where "david-ebersman" has worked.
-              db.collection('companies').find({}, { name: 1, relationships: 1, _id: 0 }).toArray((error, result) => {
+              db.collection('companies').find(
+                {
+                  $and:[
+                    {
+                      'relationships.person.first_name': 'David',
+                      'relationships.person.last_name': 'Ebersman'
+                    }
+
+                  ]
+                }, 
+                { name: 1,  _id: 0 }
+                )
+                .toArray((error, result) => {
                 if (error) {
                   console.log(error);
                   rl.question(`\nType enter to continue: `, (answer) => { mainMenu() });
                 } else {
-                  // console.log(result[0]);
-                  let partialResult = result.filter( elem => 
-                    elem.relationships.some( elem => (elem.person.first_name + '-' + elem.person.last_name).toLowerCase() == 'david-ebersman')).map(elem => elem.name)
-                  console.log(partialResult);
+                  console.log(result);
                   rl.question(`\nType enter to continue: `, (answer) => { mainMenu() });
                 }
               })
             break;
+
+            // case "12":
+            //   // 12.- List all the companies where "david-ebersman" has worked.
+            //   db.collection('companies').find({}, { name: 1, relationships: 1, _id: 0 }).toArray((error, result) => {
+            //     if (error) {
+            //       console.log(error);
+            //       rl.question(`\nType enter to continue: `, (answer) => { mainMenu() });
+            //     } else {
+            //       // console.log(result[0]);
+            //       let partialResult = result.filter( elem => 
+            //         elem.relationships.some( elem => (elem.person.first_name + '-' + elem.person.last_name).toLowerCase() == 'david-ebersman')).map(elem => elem.name)
+            //       console.log(partialResult);
+            //       rl.question(`\nType enter to continue: `, (answer) => { mainMenu() });
+            //     }
+            //   })
+            // break;
 
             case "13":
               // 13.- List by name the competitors of Facebook
@@ -204,7 +236,8 @@ mongoClient.connect(`mongodb://localhost:27017/crunchbase`, (error, db) => {
               //     14.- Names of the companies that has "social-networking" in tag-list 
                         // (be aware that the value of field is a string check regex operators)
                         //********************* WHAT IS THE WARNING ABOUT? ***************************************/
-              db.collection('companies').find({ tag_list: { $in: [ "social-networking" ] } }, { name: 1, _id: 0 }).toArray((error, result) => {
+              // db.collection('companies').find({ tag_list: { $in: [ "social-networking" ] } }, { name: 1, _id: 0 }).toArray((error, result) => {
+              db.collection('companies').find({ tag_list: { $regex: /social-networking/i } }, { name: 1, _id: 0 }).toArray((error, result) => {
                 if (error) {
                   console.log(error);
                   rl.question(`\nType enter to continue: `, (answer) => { mainMenu() });
@@ -248,9 +281,8 @@ mongoClient.connect(`mongodb://localhost:27017/crunchbase`, (error, db) => {
               //     17.- How many companies that has "social-network" in tag-list and founded 
                     // between 2002 and 2016 inclusive and has offices in New York
               db.collection('companies').find(
-                // {$and: [ {tag_list: { $in: [ "social-network" ] } }, {founded_year: {$gte: 2002}}, {founded_year: {$lte: 2016}} , {"offices.city": {$in: ["New York"] } } ] },
-                {$and: [ {tag_list: { $in: [ "social-network" ] } }, {founded_year: {$gte: 2002}}, {founded_year: {$lte: 2016}} , {"offices.city": {$in: ["Moscow"] } } ] },
-                // {$and: [ {tag_list: { $in: [ "social-network" ] } }, {founded_year: {$gte: 2002}}, {founded_year: {$lte: 2016}}  ] }, 
+                // {$and: [ {tag_list: { $in: [ "social-network" ] } }, {founded_year: {$gte: 2002}}, {founded_year: {$lte: 2016}} , {"offices.city": {$in: ["Moscow"] } } ] },
+                {$and: [ {tag_list: { $regex: /social-network/i } }, {founded_year: {$gte: 2002}}, {founded_year: {$lte: 2016}} , {"offices.city": {$in: ["Moscow"] } } ] },
                 { name: 1, _id: 0 }).toArray((error, result) => {
                 if (error) {
                   console.log(error);
