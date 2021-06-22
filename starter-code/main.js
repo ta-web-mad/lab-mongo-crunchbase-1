@@ -153,9 +153,9 @@ mongoClient.connect(`mongodb://localhost:27017/crunchbase`, (error, db) => {
             //10. - List the name of all the products of Facebook
 
 
-            db.collection('companies').find({ name: 'Facebook' }), {
+            db.collection('companies').find({ name: 'Facebook' }, {
               name: 1, _id: 0, products_name: 1
-            }.toArray((error, result) => {
+            }).toArray((error, result) => {
               if (error) {
                 console.log(error);
                 rl.question(`\nType enter to continue: `, (answer) => { mainMenu() });
@@ -171,7 +171,7 @@ mongoClient.connect(`mongodb://localhost:27017/crunchbase`, (error, db) => {
             //List the people that are working at Facebook right now(check relationships field)
 
 
-            db.collection('companies').find({ name: 'Facebook' }), { name: 1, _id: 0, number_of_employees: 1 }.toArray((error, result) => {
+            db.collection('companies').find({ name: 'Facebook' }, { name: 1, _id: 0, number_of_employees: 1 }).toArray((error, result) => {
               if (error) {
                 console.log(error);
                 rl.question(`\nType enter to continue: `, (answer) => { mainMenu() });
@@ -188,7 +188,7 @@ mongoClient.connect(`mongodb://localhost:27017/crunchbase`, (error, db) => {
             //List companies where X guy worked at
 
 
-            db.collection('companies').find({ $and: [{ "relationships.person.permalink": "david-ebersman" }, { "relationships.is_past": true }] }), { name: 1, _id: 0, }.toArray((error, result) => {
+            db.collection('companies').find({ $and: [{ "relationships.person.permalink": "david-ebersman" }, { "relationships.is_past": true }] }, { name: 1, _id: 0, }).toArray((error, result) => {
               if (error) {
                 console.log(error);
                 rl.question(`\nType enter to continue: `, (answer) => { mainMenu() });
@@ -204,9 +204,9 @@ mongoClient.connect(`mongodb://localhost:27017/crunchbase`, (error, db) => {
             //Competitors of Facebook
 
 
-            db.collection('companies').find({ name: 'Facebook' }), {
+            db.collection('companies').find({ name: 'Facebook' }, {
               name: 1, _id: 0, competitions_competitor_name: 1
-            }.toArray((error, result) => {
+            }).toArray((error, result) => {
               if (error) {
                 console.log(error);
                 rl.question(`\nType enter to continue: `, (answer) => { mainMenu() });
@@ -222,7 +222,7 @@ mongoClient.connect(`mongodb://localhost:27017/crunchbase`, (error, db) => {
             //Taglist Social Networking
 
 
-            db.collection('companies').find({ tag_list: 'social-networking' }), { name: 1, _id: 0 }
+            db.collection('companies').find({ tag_list: 'social-networking' }, { name: 1, _id: 0 })
               .toArray((error, result) => {
                 if (error) {
                   console.log(error);
@@ -240,7 +240,7 @@ mongoClient.connect(`mongodb://localhost:27017/crunchbase`, (error, db) => {
             //Taglist Social Networking, founded 2002-2016
 
 
-            db.collection('companies').find({ $and: [{ tag_list: 'social-networking' }, { founded_year: { $gte: 2002 } }, { founded_year: { $lte: 2016 } }] }), { name: 1, _id: 0 }
+            db.collection('companies').find({ $and: [{ tag_list: 'social-networking' }, { founded_year: { $gte: 2002 } }, { founded_year: { $lte: 2016 } }] }, { name: 1, _id: 0 })
               .count((error, result) => {
                 if (error) {
                   console.log(error);
@@ -259,7 +259,7 @@ mongoClient.connect(`mongodb://localhost:27017/crunchbase`, (error, db) => {
             //Taglist Social Networking, founded 2002-2016
 
 
-            db.collection('companies').find({ $and: [{ tag_list: 'social-networking' }, { founded_year: { $gte: 2002 } }, { founded_year: { $lte: 2016 } }] }), { name: 1, _id: 0 }
+            db.collection('companies').find({ $and: [{ tag_list: 'social-networking' }, { founded_year: { $gte: 2002 } }, { founded_year: { $lte: 2016 } }] }, { name: 1, _id: 0 })
               .toCount((error, result) => {
                 if (error) {
                   console.log(error);
@@ -278,7 +278,7 @@ mongoClient.connect(`mongodb://localhost:27017/crunchbase`, (error, db) => {
             //Taglist Social Networking, founded 2002-2016
 
 
-            db.collection('companies').find({ "offices.city": 'London' }), { name: 1, _id: 0, offices: 1 }
+            db.collection('companies').find({ "offices.city": 'London' }, { name: 1, _id: 0, offices: 1 })
               .toArray((error, result) => {
                 if (error) {
                   console.log(error);
